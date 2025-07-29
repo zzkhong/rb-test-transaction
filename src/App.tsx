@@ -4,11 +4,11 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HomePage from './modules/HomePage';
-import RecipientPage from './modules/payment/RecipientPage';
-import PaymentDetailPage from './modules/payment/PaymentDetailPage';
-import PaymentApprovePage from './modules/payment/PaymentApprovePage';
-import PaymentResultPage from './modules/payment/PaymentResultPage';
+import HomePage from '@modules/HomePage';
+import RecipientPage from '@modules/payment/RecipientPage';
+import PaymentDetailPage from '@modules/payment/PaymentDetailPage';
+import PaymentApprovePage from '@modules/payment/PaymentApprovePage';
+import PaymentResultPage from '@modules/payment/PaymentResultPage';
 
 export const navigationRef = createNavigationContainerRef();
 const Stack = createNativeStackNavigator();
