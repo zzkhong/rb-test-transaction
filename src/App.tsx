@@ -41,6 +41,9 @@ function App() {
             component={PaymentApprovePage}
           />
           <Stack.Screen
+            options={{
+              gestureEnabled: false,
+            }}
             name={RouteList.PaymentResult}
             component={PaymentResultPage}
           />

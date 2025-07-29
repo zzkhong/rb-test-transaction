@@ -4,11 +4,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 
 import { NavigationProp } from '@common/constants/routes';
+import { useDisableBackButton } from '@common/hooks';
 
 import Button from '@common/components/Button';
 
 export default function PaymentResultPage() {
   const navigation = useNavigation<NavigationProp>();
+
+  useDisableBackButton();
 
   const handleBack = React.useCallback(() => {
     navigation.popToTop();
