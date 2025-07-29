@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Button, Card } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
+import RouteList, { NavigationProp } from '@common/constants/routes';
 import { Colors, Container } from '@common/styles';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
 
 export default function HomePage() {
+  const navigation = useNavigation<NavigationProp>();
+
   const quickActions = React.useMemo(
     () => [
       {
         id: 'transfer',
         label: 'Transfer Money',
+        onPress: () => navigation.navigate(RouteList.PaymentRecipient),
       },
       {
         id: 'qr',
@@ -24,7 +29,7 @@ export default function HomePage() {
         disabled: true,
       },
     ],
-    [],
+    [navigation],
   );
 
   return (
@@ -52,6 +57,7 @@ export default function HomePage() {
               buttonColor={Colors.primary}
               textColor={Colors.white}
               disabled={item.disabled}
+              onPress={item.onPress}
             >
               {item.label}
             </Button>

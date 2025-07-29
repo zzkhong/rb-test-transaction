@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function RecipientPage() {
+export default function PaymentRecipientPage() {
   return (
     <View style={style.container}>
       <Text>RecipientPage</Text>
