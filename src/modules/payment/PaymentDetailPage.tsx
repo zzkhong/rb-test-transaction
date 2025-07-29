@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import RouteList, { NavigationProp } from '@common/constants/routes';
 
 import Button from '@common/components/Button';
+import Text from '@common/components/Text';
+import Spacer from '@common/components/Spacer';
 
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -22,6 +24,24 @@ export default function PaymentDetailPage() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Payee Details */}
+          <Text variant="labelLarge">Payee Name</Text>
+          <Text variant="headlineSmall">John Doe</Text>
+          <Spacer variant="large" />
+
+          {/* Account Details */}
+          <Text variant="titleMedium">Account Info</Text>
+          <Text variant="headlineSmall">Public Bank • 88880001</Text>
+          <Spacer variant="large" />
+
+          {/* Transfer Type */}
+          <Text variant="labelLarge">Transfer Type</Text>
+          <Text variant="headlineSmall">Fund Transfer</Text>
+          <Spacer variant="large" />
+
+          {/* References */}
+          <Text variant="labelLarge">References</Text>
+          <Text variant="headlineSmall">lorem ipsum</Text>
+          <Spacer />
         </ScrollView>
 
         <Button style={styles.button} mode="contained" onPress={handleContinue}>

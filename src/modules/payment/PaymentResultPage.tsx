@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { NavigationProp } from '@common/constants/routes';
 import { useDisableBackButton } from '@common/hooks';
+import Spacer from '@common/components/Spacer';
+import Text from '@common/components/Text';
 
 import Button from '@common/components/Button';
 
@@ -24,6 +26,24 @@ export default function PaymentResultPage() {
         contentContainerStyle={styles.scrollContent}
       >
         {/* Payee Details */}
+        <Text variant="labelLarge">Payee Name</Text>
+        <Text variant="headlineSmall">John Doe</Text>
+        <Spacer variant="large" />
+
+        {/* Account Details */}
+        <Text variant="titleMedium">Account Info</Text>
+        <Text variant="headlineSmall">Public Bank • 88880001</Text>
+        <Spacer variant="large" />
+
+        {/* Transfer Type */}
+        <Text variant="labelLarge">Transfer Type</Text>
+        <Text variant="headlineSmall">Fund Transfer</Text>
+        <Spacer variant="large" />
+
+        {/* References */}
+        <Text variant="labelLarge">References</Text>
+        <Text variant="headlineSmall">lorem ipsum</Text>
+        <Spacer />
       </ScrollView>
 
       <Button style={styles.button} mode="contained" onPress={handleBack}>
