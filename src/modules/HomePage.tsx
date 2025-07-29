@@ -1,10 +1,18 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function HomePage() {
   return (
-    <View>
-      <Text>This is HomePage</Text>
+    <View style={style.container}>
+      <Text>Home Screen</Text>
     </View>
   );
 }
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
