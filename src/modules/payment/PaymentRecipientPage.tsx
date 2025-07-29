@@ -1,32 +1,42 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Button from '@common/components/Button';
+import { useNavigation } from '@react-navigation/native';
+
+import RouteList, { NavigationProp } from '@common/constants/routes';
 import { Container } from '@common/styles';
+import Button from '@common/components/Button';
+import Spacer from '@common/components/Spacer';
+import Text from '@common/components/Text';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PaymentRecipientPage() {
+  const navigation = useNavigation<NavigationProp>();
+
   const recipientButtons = React.useMemo(
     () => [
       {
         id: 'bank',
         label: 'Account Number',
         icon: 'bank',
-        onPress: () => null,
+        onPress: () => navigation.navigate(RouteList.PaymentDetail),
       },
       {
         id: 'duitnow',
         label: 'Mobile Number',
         icon: 'card-account-phone',
-        onPress: () => null,
+        onPress: () => navigation.navigate(RouteList.PaymentDetail),
       },
     ],
     [],
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/* Transfer Option */}
       <View style={styles.buttonRow}>
         {recipientButtons.map(item => (
           <Button
+            mode="elevated"
             key={item.id}
             icon={item.icon}
             style={styles.button}
@@ -38,7 +48,12 @@ export default function PaymentRecipientPage() {
           </Button>
         ))}
       </View>
-    </View>
+      <Spacer variant="large" />
+
+      {/* Recent Transfer */}
+      <Text variant="headlineSmall">Recent Transactions</Text>
+      <Spacer />
+    </SafeAreaView>
   );
 }
 

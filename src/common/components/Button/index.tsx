@@ -4,13 +4,16 @@ import { Button as PaperButton, ButtonProps } from 'react-native-paper';
 import { Colors } from '@common/styles';
 
 const Button: React.FC<ButtonProps> = props => {
-  const { style, children } = props;
+  const { mode, children } = props;
+
+  const isFilled =
+    mode === 'contained' || mode === 'elevated' || mode === 'contained-tonal';
 
   return (
     <PaperButton
-      style={[styles.buttonBase, style]}
-      buttonColor={Colors.primary}
-      textColor={Colors.contentInverse}
+      contentStyle={styles.buttonBase}
+      buttonColor={isFilled ? Colors.primary : props.buttonColor}
+      textColor={isFilled ? Colors.contentInverse : props.textColor}
       {...props}
     >
       {children}
@@ -20,7 +23,10 @@ const Button: React.FC<ButtonProps> = props => {
 
 const styles = StyleSheet.create({
   buttonBase: {
-    minHeight: 24,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 48,
   },
 });
 
