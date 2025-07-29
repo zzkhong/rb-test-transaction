@@ -1,4 +1,4 @@
-export const primary = '#6e64a0';
+export const primary = '#000080';
 export const primaryVariant = '#413a71';
 
 export const secondary = '#e7b45e';
@@ -8,8 +8,8 @@ export const error = '#b00020';
 
 export const grayscale = '#b0bec5';
 export const old = '#eae8f1';
-export const white = '#fff';
 export const content = '#060606';
+export const contentInverse = '#fff';
 export const separator = '#cfd8dc';
 
 export const background = '#e5e5e5';
