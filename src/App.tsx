@@ -10,7 +10,9 @@ import PaymentRecipientPage from 'modules/payment/PaymentRecipientPage';
 import PaymentDetailPage from '@modules/payment/PaymentDetailPage';
 import PaymentApprovePage from '@modules/payment/PaymentApprovePage';
 import PaymentResultPage from '@modules/payment/PaymentResultPage';
-import RouteList from 'common/constants/routes';
+import RouteList from '@common/constants/routes';
+import Header from '@common/components/Header';
+import { Colors } from '@common/styles';
 
 export const navigationRef = createNavigationContainerRef();
 const Stack = createNativeStackNavigator();
@@ -22,10 +24,18 @@ function App() {
         <Stack.Navigator
           initialRouteName={RouteList.Home}
           screenOptions={{
-            header: () => null,
+            // eslint-disable-next-line react/no-unstable-nested-components
+            header: props => <Header {...props} />,
+            contentStyle: {
+              backgroundColor: Colors.background,
+            },
           }}
         >
-          <Stack.Screen name={RouteList.Home} component={HomePage} />
+          <Stack.Screen
+            options={{ header: () => null }}
+            name={RouteList.Home}
+            component={HomePage}
+          />
 
           {/* Payment Module */}
           <Stack.Screen
@@ -43,6 +53,7 @@ function App() {
           <Stack.Screen
             options={{
               gestureEnabled: false,
+              header: () => null,
             }}
             name={RouteList.PaymentResult}
             component={PaymentResultPage}

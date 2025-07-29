@@ -1,11 +1,11 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const RouteList = {
-  Home: 'Main_Home',
-  PaymentRecipient: 'Payment_Recipient',
-  PaymentDetail: 'Payment_Detail',
-  PaymentApprove: 'Payment_Approve',
-  PaymentResult: 'Payment_Result',
+  Home: 'Home',
+  PaymentRecipient: 'Payment Recipients',
+  PaymentDetail: 'Payment Detail',
+  PaymentApprove: 'Payment Confirmation',
+  PaymentResult: 'Payment Result',
 };
 
 const RouteType = {
