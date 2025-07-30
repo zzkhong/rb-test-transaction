@@ -7,7 +7,7 @@ import { Colors } from '@common/styles';
 interface CurrencyInputProps {
   value: string;
   autoFocus?: boolean;
-  onChange: (val: string) => void;
+  onChange?: (val: string) => void;
   placeholder?: string;
   maxValue?: number;
   editable?: boolean;
@@ -45,7 +45,7 @@ export default function CurrencyInput({
 
     const formatted = formatCurrency(raw);
     setDisplayValue(formatted);
-    onChange(raw);
+    if (onChange) onChange(raw);
     setSelection({ start: formatted.length, end: formatted.length });
   };
 
@@ -81,9 +81,6 @@ export default function CurrencyInput({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    margin: 10,
-  },
   input: {
     fontSize: 48,
     color: Colors.content,

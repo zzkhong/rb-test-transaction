@@ -6,8 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import RouteList, { NavigationProp } from '@common/constants/routes';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
-
 import Button from '@common/components/Button';
+import CurrencyInput from '@common/components/CurrencyInput';
 
 export default function PaymentApprovePage() {
   const navigation = useNavigation<NavigationProp>();
@@ -28,6 +28,9 @@ export default function PaymentApprovePage() {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
+        {/* Input Amount */}
+        <CurrencyInput autoFocus value={String(100000)} editable={false} />
+
         {/* Payee Details */}
         <Text variant="labelLarge">Payee Name</Text>
         <Text variant="headlineSmall">John Doe</Text>

@@ -6,10 +6,11 @@ import { Icon } from 'react-native-paper';
 
 import { NavigationProp } from '@common/constants/routes';
 import { useDisableBackButton } from '@common/hooks';
+import { Colors } from '@common/styles';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
 import Button from '@common/components/Button';
-import { Colors } from 'common/styles';
+import CurrencyInput from '@common/components/CurrencyInput';
 
 export default function PaymentResultPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -35,6 +36,10 @@ export default function PaymentResultPage() {
           <Text variant="headlineSmall">Payment has been transferred</Text>
         </View>
         <Spacer variant="large" />
+
+        {/* Input Amount */}
+        <CurrencyInput autoFocus value={String(100000)} editable={false} />
+        <Spacer />
 
         {/* Payee Details */}
         <Text variant="labelLarge">Payee Name</Text>
