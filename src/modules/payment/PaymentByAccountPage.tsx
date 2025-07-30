@@ -13,7 +13,7 @@ import Input from '@common/components/Input';
 export default function PaymentByAccountPage() {
   const navigation = useNavigation<NavigationProp>();
 
-  const handleContinue = React.useCallback(() => {
+  const handlePressAccount = React.useCallback(() => {
     navigation.navigate(RouteList.PaymentDetail);
   }, [navigation]);
 
@@ -35,7 +35,11 @@ export default function PaymentByAccountPage() {
           <Spacer variant="large" />
         </ScrollView>
 
-        <Button style={styles.button} mode="contained" onPress={handleContinue}>
+        <Button
+          style={styles.button}
+          mode="contained"
+          onPress={handlePressAccount}
+        >
           Continue
         </Button>
       </KeyboardAvoidingView>

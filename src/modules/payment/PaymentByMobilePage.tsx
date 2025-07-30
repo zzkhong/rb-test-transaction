@@ -1,52 +1,69 @@
 import * as React from 'react';
-import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { Searchbar } from 'react-native-paper';
 
 import RouteList, { NavigationProp } from '@common/constants/routes';
-
-import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 
+function ContactItem({
+  contact,
+  onPress,
+}: {
+  contact: any;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.contactItem}>
+      <Text>a{/* {transaction.payeeName} ({transaction.accountNo}) */}</Text>
+    </TouchableOpacity>
+  );
+}
+
+function EmptyContactContent() {
+  return (
+    <View style={styles.listEmptyContent}>
+      <Text>No contact found</Text>
+    </View>
+  );
+}
+
 export default function PaymentByMobilePage() {
   const navigation = useNavigation<NavigationProp>();
+  const [query, setQuery] = React.useState('');
 
-  const handleContinue = React.useCallback(() => {
+  const handlePressContact = React.useCallback(() => {
     navigation.navigate(RouteList.PaymentDetail);
   }, [navigation]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-        >
-          {/* Payee Details */}
-          <Text variant="labelLarge">Payee Name</Text>
-          <Text variant="headlineSmall">John Doe</Text>
-          <Spacer variant="large" />
-
-          {/* Account Details */}
-          <Text variant="titleMedium">Account Info</Text>
-          <Text variant="headlineSmall">Public Bank • 88880001</Text>
-          <Spacer variant="large" />
-
-          {/* Transfer Type */}
-          <Text variant="labelLarge">Transfer Type</Text>
-          <Text variant="headlineSmall">Fund Transfer</Text>
-          <Spacer variant="large" />
-
-          {/* References */}
-          <Text variant="labelLarge">References</Text>
-          <Text variant="headlineSmall">lorem ipsum</Text>
+        <View style={styles.content}>
+          <Searchbar
+            placeholder="Search by Contact"
+            onChangeText={setQuery}
+            value={query}
+          />
           <Spacer />
-        </ScrollView>
 
-        <Button style={styles.button} mode="contained" onPress={handleContinue}>
-          Continue
-        </Button>
+          <FlatList
+            data={[]}
+            keyExtractor={item => item.id}
+            renderItem={item => (
+              <ContactItem contact={item} onPress={handlePressContact} />
+            )}
+            ListEmptyComponent={<EmptyContactContent />}
+          />
+        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -59,14 +76,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollView: {
+  content: {
     flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
     padding: 16,
   },
-  button: {
-    margin: 16,
+  listEmptyContent: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
