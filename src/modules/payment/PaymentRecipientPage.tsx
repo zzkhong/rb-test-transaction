@@ -1,13 +1,57 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import RouteList, { NavigationProp } from '@common/constants/routes';
 import { Container } from '@common/styles';
 import Button from '@common/components/Button';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import type { Transaction } from '@common/interface/transaction';
+import { Divider } from 'react-native-paper';
+
+const RECENT_TRANSACTIONS: Transaction[] = [
+  {
+    id: 1,
+    payeeName: 'MR. A',
+    accountNo: '88880001',
+  },
+  {
+    id: 2,
+    payeeName: 'MR. B',
+    accountNo: '88880001',
+  },
+  {
+    id: 3,
+    payeeName: 'MR. C',
+    accountNo: '88880003',
+  },
+];
+
+function EmptyRecentContent() {
+  return (
+    <View style={styles.listEmptyContent}>
+      <Text>No recent transactions</Text>
+    </View>
+  );
+}
+
+function RecentItem({
+  transaction,
+  onPress,
+}: {
+  transaction: Transaction;
+  onPress: () => void;
+}) {
+  return (
+    <TouchableOpacity onPress={onPress} style={styles.recentItem}>
+      <Text>
+        {transaction.payeeName} ({transaction.accountNo})
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 export default function PaymentRecipientPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -27,8 +71,13 @@ export default function PaymentRecipientPage() {
         onPress: () => navigation.navigate(RouteList.PaymentDetail),
       },
     ],
-    [],
+    [navigation],
   );
+
+  const handleRecentPress = (transaction: Transaction) => {
+    // Navigate or handle the press event for the transaction
+    navigation.navigate(RouteList.PaymentDetail);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,6 +101,18 @@ export default function PaymentRecipientPage() {
 
       {/* Recent Transfer */}
       <Text variant="headlineSmall">Recent Transactions</Text>
+      <FlatList
+        data={[]}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
+          <RecentItem
+            transaction={item}
+            onPress={() => handleRecentPress(item)}
+          />
+        )}
+        ItemSeparatorComponent={Divider}
+        ListEmptyComponent={<EmptyRecentContent />}
+      />
       <Spacer />
     </SafeAreaView>
   );
@@ -77,5 +138,17 @@ const styles = StyleSheet.create({
   },
   buttonLabel: {
     flexWrap: 'wrap',
+  },
+  listEmptyContent: {
+    flex: 1,
+    padding: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  recentItem: {
+    flex: 1,
+    minHeight: 48,
+    marginVertical: 4,
+    justifyContent: 'center',
   },
 });
