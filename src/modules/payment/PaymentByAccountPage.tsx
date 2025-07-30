@@ -9,9 +9,30 @@ import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
+import Dropdown from '@common/components/Dropdown';
+
+const BANK_DATA = [
+  {
+    id: 'pbb',
+    label: 'Public Bank',
+  },
+  {
+    id: 'mbb',
+    label: 'Maybank',
+  },
+  {
+    id: 'cimb',
+    label: 'CIMB Bank',
+  },
+  {
+    id: 'hlb',
+    label: 'HongLeong Bank',
+  },
+];
 
 export default function PaymentByAccountPage() {
   const navigation = useNavigation<NavigationProp>();
+  const [bank, setBank] = React.useState(BANK_DATA[0].id);
 
   const handlePressAccount = React.useCallback(() => {
     navigation.navigate(RouteList.PaymentDetail);
@@ -26,7 +47,13 @@ export default function PaymentByAccountPage() {
         >
           {/* Payee Details */}
           <Text variant="titleMedium">Bank</Text>
-          <Text variant="headlineSmall">John Doe</Text>
+          <Dropdown
+            data={BANK_DATA}
+            placeholder="Select Recipient Bank"
+            labelField="label"
+            valueField="id"
+            onChange={item => setBank(item.id)}
+          />
           <Spacer variant="large" />
 
           {/* Account Details */}
