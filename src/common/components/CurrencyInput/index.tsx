@@ -8,6 +8,7 @@ interface CurrencyInputProps {
   value: string;
   autoFocus?: boolean;
   onChange?: (val: string) => void;
+  onBlur?: () => void;
   placeholder?: string;
   maxValue?: number;
   editable?: boolean;
@@ -16,6 +17,7 @@ interface CurrencyInputProps {
 export default function CurrencyInput({
   value,
   onChange,
+  onBlur,
   autoFocus,
   placeholder = '0.00',
   maxValue = 10000000,
@@ -72,6 +74,7 @@ export default function CurrencyInput({
       style={styles.input}
       value={displayValue}
       onChangeText={handleChange}
+      onBlur={onBlur}
       onSelectionChange={handleSelectionChange}
       selection={selection}
       selectionColor="transparent"

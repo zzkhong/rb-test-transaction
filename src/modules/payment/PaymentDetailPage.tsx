@@ -2,22 +2,43 @@ import * as React from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 
 import RouteList, { NavigationProp } from '@common/constants/routes';
-
 import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
 import CurrencyInput from '@common/components/CurrencyInput';
+import { Colors } from '@common/styles';
+import { parseCurrency } from '@common/util/currency';
+
+type FormData = {
+  amount: string;
+  reference: string;
+};
 
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
-  const [amount, setAmount] = React.useState('0.00');
 
-  const handleContinue = React.useCallback(() => {
-    navigation.navigate(RouteList.PaymentApprove);
-  }, [navigation]);
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      amount: '0.00',
+      reference: '',
+    },
+    mode: 'onChange',
+  });
+
+  const onSubmit = (data: FormData) => {
+    navigation.navigate(RouteList.PaymentApprove, {
+      amount: data.amount,
+      references: data.reference,
+    });
+  };
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -27,8 +48,32 @@ export default function PaymentDetailPage() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Input Amount */}
-          <CurrencyInput autoFocus value={amount} onChange={setAmount} />
-          <Text>{`Balance: ${'RM 1,000,000'}`}</Text>
+          <Controller
+            name="amount"
+            control={control}
+            rules={{
+              validate: value => {
+                const amount = parseCurrency(value);
+                if (amount <= 0) return 'Amount must be greater than 0';
+                if (amount > 1000) return 'Insufficient balance';
+                return true;
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <CurrencyInput
+                autoFocus
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+              />
+            )}
+          />
+          <Text>{`Balance: ${'RM 1,000'}`}</Text>
+          {errors.amount && (
+            <Text variant="bodyMedium" style={styles.errorText}>
+              {errors.amount.message}
+            </Text>
+          )}
           <Spacer variant="large" />
 
           {/* Payee Details */}
@@ -48,11 +93,27 @@ export default function PaymentDetailPage() {
 
           {/* References */}
           <Text variant="labelLarge">References</Text>
-          <Input placeholder="Enter References" />
+          <Controller
+            name="reference"
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                placeholder="Enter Reference"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
           <Spacer />
         </ScrollView>
 
-        <Button style={styles.button} mode="contained" onPress={handleContinue}>
+        <Button
+          style={styles.button}
+          mode="contained"
+          disabled={!isValid}
+          onPress={handleSubmit(onSubmit)}
+        >
           Continue
         </Button>
       </KeyboardAvoidingView>
@@ -76,5 +137,8 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 16,
+  },
+  errorText: {
+    color: Colors.error,
   },
 });
