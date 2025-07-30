@@ -12,7 +12,7 @@ export const content = '#060606';
 export const contentInverse = '#fff';
 export const separator = '#cfd8dc';
 
-export const background = '#e5e5e5';
+export const background = '#f5f5f5';
 
 export const transparent = '#00000000';
 export const placeholder = '#06060630';

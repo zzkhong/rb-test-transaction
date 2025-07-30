@@ -8,12 +8,13 @@ import RouteList, { NavigationProp } from '@common/constants/routes';
 import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
+import Input from '@common/components/Input';
 
 export default function PaymentByAccountPage() {
   const navigation = useNavigation<NavigationProp>();
 
   const handleContinue = React.useCallback(() => {
-    navigation.navigate(RouteList.PaymentApprove);
+    navigation.navigate(RouteList.PaymentDetail);
   }, [navigation]);
 
   return (
@@ -24,24 +25,14 @@ export default function PaymentByAccountPage() {
           contentContainerStyle={styles.scrollContent}
         >
           {/* Payee Details */}
-          <Text variant="labelLarge">Payee Name</Text>
+          <Text variant="titleMedium">Bank</Text>
           <Text variant="headlineSmall">John Doe</Text>
           <Spacer variant="large" />
 
           {/* Account Details */}
-          <Text variant="titleMedium">Account Info</Text>
-          <Text variant="headlineSmall">Public Bank • 88880001</Text>
+          <Text variant="titleMedium">Account Number</Text>
+          <Input placeholder="Enter Account Number" />
           <Spacer variant="large" />
-
-          {/* Transfer Type */}
-          <Text variant="labelLarge">Transfer Type</Text>
-          <Text variant="headlineSmall">Fund Transfer</Text>
-          <Spacer variant="large" />
-
-          {/* References */}
-          <Text variant="labelLarge">References</Text>
-          <Text variant="headlineSmall">lorem ipsum</Text>
-          <Spacer />
         </ScrollView>
 
         <Button style={styles.button} mode="contained" onPress={handleContinue}>

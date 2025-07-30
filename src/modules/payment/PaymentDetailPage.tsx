@@ -8,6 +8,7 @@ import RouteList, { NavigationProp } from '@common/constants/routes';
 import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
+import Input from '@common/components/Input';
 
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -40,7 +41,7 @@ export default function PaymentDetailPage() {
 
           {/* References */}
           <Text variant="labelLarge">References</Text>
-          <Text variant="headlineSmall">lorem ipsum</Text>
+          <Input placeholder="Enter References" />
           <Spacer />
         </ScrollView>
 

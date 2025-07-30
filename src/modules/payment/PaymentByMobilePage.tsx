@@ -13,7 +13,7 @@ export default function PaymentByMobilePage() {
   const navigation = useNavigation<NavigationProp>();
 
   const handleContinue = React.useCallback(() => {
-    navigation.navigate(RouteList.PaymentApprove);
+    navigation.navigate(RouteList.PaymentDetail);
   }, [navigation]);
 
   return (
