@@ -1,14 +1,15 @@
 import * as React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { Icon } from 'react-native-paper';
 
 import { NavigationProp } from '@common/constants/routes';
 import { useDisableBackButton } from '@common/hooks';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
-
 import Button from '@common/components/Button';
+import { Colors } from 'common/styles';
 
 export default function PaymentResultPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -25,6 +26,16 @@ export default function PaymentResultPage() {
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
       >
+        {/* Result Indicator */}
+        <View style={styles.header}>
+          {/* <Icon size={120} color={Colors.error} source="alert-circle" /> */}
+          {/* <Text variant="headlineSmall">Payment has been transferred</Text> */}
+
+          <Icon size={120} color={Colors.success} source="check-circle" />
+          <Text variant="headlineSmall">Payment has been transferred</Text>
+        </View>
+        <Spacer variant="large" />
+
         {/* Payee Details */}
         <Text variant="labelLarge">Payee Name</Text>
         <Text variant="headlineSmall">John Doe</Text>
@@ -63,6 +74,10 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     padding: 16,
+  },
+  header: {
+    alignItems: 'center',
+    margin: 32,
   },
   button: {
     margin: 16,

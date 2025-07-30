@@ -5,6 +5,7 @@ export const secondary = '#e7b45e';
 export const secondaryVariant = '#b28530';
 
 export const error = '#b00020';
+export const success = '#5cb85c';
 
 export const grayscale = '#b0bec5';
 export const old = '#eae8f1';
