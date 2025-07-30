@@ -1,23 +1,25 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text as PaperText, TextProps } from 'react-native-paper';
+
 import { Colors } from '@common/styles';
 
-const Text: React.FC<TextProps<any>> = props => {
+export const ErrorText: React.FC<TextProps<any>> = props => {
   const { style, children } = props;
 
   return (
-    <PaperText style={[styles.textBase, style]} {...props}>
+    <PaperText
+      variant="bodyMedium"
+      style={[styles.errorText, style]}
+      {...props}
+    >
       {children}
     </PaperText>
   );
 };
 
 const styles = StyleSheet.create({
-  textBase: {
-    color: Colors.content,
+  errorText: {
+    color: Colors.error,
   },
 });
-
-export { ErrorText } from './ErrorText';
-export default Text;

@@ -15,7 +15,7 @@ const RouteType = {
   [RouteList.PaymentRecipient]: undefined,
   [RouteList.PaymentByAccount]: undefined,
   [RouteList.PaymentByMobile]: undefined,
-  [RouteList.PaymentDetail]: undefined,
+  [RouteList.PaymentDetail]: { bankId: '', accountNo: '' },
   [RouteList.PaymentApprove]: { amount: '0', references: '' },
   [RouteList.PaymentResult]: undefined,
 };

@@ -2,11 +2,11 @@ import * as React from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { Controller, useForm } from 'react-hook-form';
 
 import RouteList, { NavigationProp } from '@common/constants/routes';
-
 import Button from '@common/components/Button';
-import Text from '@common/components/Text';
+import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
 import Dropdown from '@common/components/Dropdown';
@@ -30,13 +30,32 @@ const BANK_DATA = [
   },
 ];
 
+type FormData = {
+  bankId: string;
+  accountNo: string;
+};
+
 export default function PaymentByAccountPage() {
   const navigation = useNavigation<NavigationProp>();
-  const [bank, setBank] = React.useState(BANK_DATA[0].id);
 
-  const handlePressAccount = React.useCallback(() => {
-    navigation.navigate(RouteList.PaymentDetail);
-  }, [navigation]);
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      bankId: '',
+      accountNo: '',
+    },
+    mode: 'onChange',
+  });
+
+  const onSubmit = (data: FormData) => {
+    navigation.navigate(RouteList.PaymentDetail, {
+      bankId: data.bankId,
+      accountNo: data.accountNo,
+    });
+  };
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -47,25 +66,60 @@ export default function PaymentByAccountPage() {
         >
           {/* Payee Details */}
           <Text variant="titleMedium">Bank</Text>
-          <Dropdown
-            data={BANK_DATA}
-            placeholder="Select Recipient Bank"
-            labelField="label"
-            valueField="id"
-            onChange={item => setBank(item.id)}
+          <Controller
+            name="bankId"
+            control={control}
+            rules={{ required: 'Please select recipient bank' }}
+            render={({ field: { onChange, value } }) => (
+              <Dropdown
+                data={BANK_DATA}
+                value={value}
+                placeholder="Select Recipient Bank"
+                labelField="label"
+                valueField="id"
+                onChange={item => onChange(item.id)}
+              />
+            )}
           />
           <Spacer variant="large" />
 
           {/* Account Details */}
           <Text variant="titleMedium">Account Number</Text>
-          <Input placeholder="Enter Account Number" />
+
+          <Controller
+            name="accountNo"
+            control={control}
+            rules={{
+              required: 'Please enter an account number',
+              validate: value => {
+                if (!/^\d+$/.test(value))
+                  return 'Account number must contain only digits';
+                if (value.length < 8 || value.length > 12) {
+                  return 'Account number must be between 8 and 12 digits';
+                }
+                return true;
+              },
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <Input
+                placeholder="Enter Account Number"
+                onChangeText={onChange}
+                onBlur={onBlur}
+                value={value}
+              />
+            )}
+          />
+          {errors.accountNo && (
+            <ErrorText>{errors.accountNo.message}</ErrorText>
+          )}
           <Spacer variant="large" />
         </ScrollView>
 
         <Button
           style={styles.button}
           mode="contained"
-          onPress={handlePressAccount}
+          disabled={!isValid}
+          onPress={handleSubmit(onSubmit)}
         >
           Continue
         </Button>

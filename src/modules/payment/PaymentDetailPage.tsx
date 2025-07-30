@@ -6,11 +6,10 @@ import { useForm, Controller } from 'react-hook-form';
 
 import RouteList, { NavigationProp } from '@common/constants/routes';
 import Button from '@common/components/Button';
-import Text from '@common/components/Text';
+import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
 import CurrencyInput from '@common/components/CurrencyInput';
-import { Colors } from '@common/styles';
 import { parseCurrency } from '@common/util/currency';
 
 type FormData = {
@@ -69,11 +68,7 @@ export default function PaymentDetailPage() {
             )}
           />
           <Text>{`Balance: ${'RM 1,000'}`}</Text>
-          {errors.amount && (
-            <Text variant="bodyMedium" style={styles.errorText}>
-              {errors.amount.message}
-            </Text>
-          )}
+          {errors.amount && <ErrorText>{errors.amount.message}</ErrorText>}
           <Spacer variant="large" />
 
           {/* Payee Details */}
@@ -137,8 +132,5 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 16,
-  },
-  errorText: {
-    color: Colors.error,
   },
 });
