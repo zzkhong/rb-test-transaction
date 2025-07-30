@@ -9,9 +9,11 @@ import Button from '@common/components/Button';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
+import CurrencyInput from '@common/components/CurrencyInput';
 
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
+  const [amount, setAmount] = React.useState('0.00');
 
   const handleContinue = React.useCallback(() => {
     navigation.navigate(RouteList.PaymentApprove);
@@ -24,6 +26,9 @@ export default function PaymentDetailPage() {
           style={styles.scrollView}
           contentContainerStyle={styles.scrollContent}
         >
+          {/* Input Amount */}
+          <CurrencyInput autoFocus value={amount} onChange={setAmount} />
+
           {/* Payee Details */}
           <Text variant="labelLarge">Payee Name</Text>
           <Text variant="headlineSmall">John Doe</Text>

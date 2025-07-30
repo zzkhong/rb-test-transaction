@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import {
   TextInput as PaperTextInput,
   TextInputProps,
@@ -15,9 +14,5 @@ const Input: React.FC<TextInputProps> = props => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  inputBase: {},
-});
 
 export default Input;
