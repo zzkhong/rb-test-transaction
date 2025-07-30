@@ -10,6 +10,9 @@ import PaymentRecipientPage from 'modules/payment/PaymentRecipientPage';
 import PaymentDetailPage from '@modules/payment/PaymentDetailPage';
 import PaymentApprovePage from '@modules/payment/PaymentApprovePage';
 import PaymentResultPage from '@modules/payment/PaymentResultPage';
+import PaymentByMobilePage from '@modules/payment/PaymentByMobilePage';
+import PaymentByAccountPage from '@modules/payment/PaymentByAccountPage';
+
 import RouteList from '@common/constants/routes';
 import Header from '@common/components/Header';
 import { Colors } from '@common/styles';
@@ -41,6 +44,14 @@ function App() {
           <Stack.Screen
             name={RouteList.PaymentRecipient}
             component={PaymentRecipientPage}
+          />
+          <Stack.Screen
+            name={RouteList.PaymentByAccount}
+            component={PaymentByAccountPage}
+          />
+          <Stack.Screen
+            name={RouteList.PaymentByMobile}
+            component={PaymentByMobilePage}
           />
           <Stack.Screen
             name={RouteList.PaymentDetail}
