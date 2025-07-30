@@ -28,6 +28,8 @@ export default function PaymentDetailPage() {
         >
           {/* Input Amount */}
           <CurrencyInput autoFocus value={amount} onChange={setAmount} />
+          <Text>{`Balance: ${'RM 1,000,000'}`}</Text>
+          <Spacer variant="large" />
 
           {/* Payee Details */}
           <Text variant="labelLarge">Payee Name</Text>

@@ -30,6 +30,7 @@ export default function PaymentApprovePage() {
       >
         {/* Input Amount */}
         <CurrencyInput autoFocus value={String(100000)} editable={false} />
+        <Spacer />
 
         {/* Payee Details */}
         <Text variant="labelLarge">Payee Name</Text>
