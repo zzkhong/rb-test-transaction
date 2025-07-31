@@ -7,5 +7,5 @@ export type RootStackParamList = {
   PaymentByMobile: undefined;
   PaymentDetail: RecipientData;
   PaymentApprove: RecipientData & TransactionData;
-  PaymentResult: RecipientData & TransactionData;
+  PaymentResult: RecipientData & TransactionData & { error?: string };
 };

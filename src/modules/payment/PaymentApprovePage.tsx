@@ -27,7 +27,10 @@ export default function PaymentApprovePage() {
 
   const handleReject = React.useCallback(() => {
     // reject action
-    navigation.navigate('PaymentResult', params);
+    navigation.navigate('PaymentResult', {
+      ...params,
+      error: 'Transaction has been rejected',
+    });
   }, [navigation, params]);
 
   return (

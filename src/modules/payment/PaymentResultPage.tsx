@@ -37,11 +37,17 @@ export default function PaymentResultPage() {
       >
         {/* Result Indicator */}
         <View style={styles.header}>
-          {/* <Icon size={120} color={Colors.error} source="alert-circle" /> */}
-          {/* <Text variant="headlineSmall">Payment has been transferred</Text> */}
-
-          <Icon size={120} color={Colors.success} source="check-circle" />
-          <Text variant="headlineSmall">Payment has been transferred</Text>
+          {params.error ? (
+            <>
+              <Icon size={120} color={Colors.error} source="alert-circle" />
+              <Text variant="headlineSmall">{params.error}</Text>
+            </>
+          ) : (
+            <>
+              <Icon size={120} color={Colors.success} source="check-circle" />
+              <Text variant="headlineSmall">Payment has been transferred</Text>
+            </>
+          )}
         </View>
         <Spacer variant="large" />
 
@@ -66,7 +72,7 @@ export default function PaymentResultPage() {
 
         {/* Reference */}
         <Text variant="labelLarge">Reference</Text>
-        <Text variant="headlineSmall">{params.reference}</Text>
+        <Text variant="headlineSmall">{params.reference || '-'}</Text>
         <Spacer />
       </ScrollView>
 
