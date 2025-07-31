@@ -11,28 +11,11 @@ import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
 import Dropdown from '@common/components/Dropdown';
-
-const BANK_DATA = [
-  {
-    id: 'pbb',
-    label: 'Public Bank',
-  },
-  {
-    id: 'mbb',
-    label: 'Maybank',
-  },
-  {
-    id: 'cimb',
-    label: 'CIMB Bank',
-  },
-  {
-    id: 'hlb',
-    label: 'HongLeong Bank',
-  },
-];
+import { BANK_DATA } from '@common/constants/mockData';
+import { getBankName } from '@common/util/string';
 
 type FormData = {
-  bankName: string;
+  bankId: string;
   accountNo: string;
 };
 
@@ -50,7 +33,7 @@ export default function PaymentByAccountPage() {
     formState: { isValid, errors },
   } = useForm<FormData>({
     defaultValues: {
-      bankName: '',
+      bankId: '',
       accountNo: '',
     },
     mode: 'onChange',
@@ -58,7 +41,7 @@ export default function PaymentByAccountPage() {
 
   const onSubmit = (data: FormData) => {
     navigation.navigate('PaymentDetail', {
-      bankName: data.bankName,
+      bankName: getBankName(data.bankId),
       accountNo: data.accountNo,
     });
   };
@@ -73,7 +56,7 @@ export default function PaymentByAccountPage() {
           {/* Payee Details */}
           <Text variant="titleMedium">Bank</Text>
           <Controller
-            name="bankName"
+            name="bankId"
             control={control}
             rules={{ required: 'Please select recipient bank' }}
             render={({ field: { onChange, value } }) => (
@@ -83,7 +66,7 @@ export default function PaymentByAccountPage() {
                 placeholder="Select Recipient Bank"
                 labelField="label"
                 valueField="id"
-                onChange={item => onChange(item.label)}
+                onChange={item => onChange(item.id)}
               />
             )}
           />

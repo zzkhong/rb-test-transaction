@@ -17,6 +17,7 @@
     "react": "19.1.0",
     "react-hook-form": "^7.61.1",
     "react-native": "0.80.2",
+    "react-native-biometrics": "^3.0.1",
     "react-native-element-dropdown": "^2.12.4",
     "react-native-paper": "^5.14.5",
     "react-native-safe-area-context": "^5.5.2",
