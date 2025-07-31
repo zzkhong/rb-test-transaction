@@ -6,7 +6,15 @@ import { DropdownProps } from 'react-native-element-dropdown/lib/typescript/comp
 import { Colors } from '@common/styles';
 
 const Dropdown: React.FC<DropdownProps<any>> = props => {
-  return <RNDropdown style={styles.dropdown} {...props} />;
+  return (
+    <RNDropdown
+      style={styles.dropdown}
+      placeholderStyle={styles.placeholder}
+      itemTextStyle={styles.item}
+      selectedTextStyle={styles.item}
+      {...props}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
@@ -17,6 +25,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: Colors.grayscale,
+  },
+  item: {
+    color: Colors.content,
+  },
+  placeholder: {
+    color: Colors.placeholder,
   },
 });
 
