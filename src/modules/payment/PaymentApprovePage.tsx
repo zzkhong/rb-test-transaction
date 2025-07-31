@@ -11,12 +11,11 @@ import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
-import { useBiometricAuth } from '@common/hooks';
+import { useBiometricAuth, useTransfer } from '@common/hooks';
 import useUserStore from '@common/stores/userStore';
 import { formatCurrency } from '@common/util/currency';
 import useTransactionStore from '@common/stores/transactionStore';
 import PinModal, { STORED_PIN } from '@common/components/PinModal';
-import { useTransfer } from '@common/hooks/useTransfer';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,

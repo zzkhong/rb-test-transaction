@@ -67,14 +67,24 @@ export default function PaymentRecipientPage() {
     [navigation],
   );
 
-  const handleRecentPress = (transaction: TransactionData) => {
-    // Navigate or handle the press event for the transaction
-    navigation.navigate('PaymentDetail', {
-      recipientName: 'John Doe',
-      bankName: transaction.bankName,
-      accountNo: transaction.accountNo,
-    });
-  };
+  const handleRecentPress = React.useCallback(
+    (transaction: TransactionData) => {
+      // Navigate or handle the press event for the transaction
+      navigation.navigate('PaymentDetail', {
+        recipientName: 'John Doe',
+        bankName: transaction.bankName,
+        accountNo: transaction.accountNo,
+      });
+    },
+    [navigation],
+  );
+
+  const renderItem = React.useCallback(
+    ({ item }: { item: TransactionData }) => (
+      <RecentItem transaction={item} onPress={() => handleRecentPress(item)} />
+    ),
+    [handleRecentPress],
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,12 +111,7 @@ export default function PaymentRecipientPage() {
       <FlatList
         data={recentTransactions}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => (
-          <RecentItem
-            transaction={item}
-            onPress={() => handleRecentPress(item)}
-          />
-        )}
+        renderItem={renderItem}
         ItemSeparatorComponent={Divider}
         ListEmptyComponent={<EmptyRecentContent />}
       />

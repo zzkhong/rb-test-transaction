@@ -10,8 +10,8 @@ export const ErrorText: React.FC<TextProps<any>> = props => {
   return (
     <PaperText
       variant="bodyMedium"
-      style={[styles.errorText, style]}
       {...props}
+      style={[style, styles.errorText]}
     >
       {children}
     </PaperText>

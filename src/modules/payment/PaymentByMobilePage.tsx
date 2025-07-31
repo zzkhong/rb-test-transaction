@@ -8,25 +8,30 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Searchbar } from 'react-native-paper';
+import { ActivityIndicator, Divider, Searchbar } from 'react-native-paper';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Contact } from 'react-native-contacts';
 
 import { RootStackParamList } from '@common/constants/routes';
-import Text from '@common/components/Text';
+import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
+import { useContacts } from '@common/hooks';
+import { formatPhoneToAccountNo } from '@common/util/string';
 
 function ContactItem({
   contact,
   onPress,
 }: {
-  contact: any;
-  onPress: () => void;
+  contact: Contact;
+  onPress: (contact: Contact) => void;
 }) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.contactItem}>
-      <Text>
-        a{/* {transaction.recipientName} ({transaction.accountNo}) */}
-      </Text>
+    <TouchableOpacity
+      onPress={() => onPress(contact)}
+      style={styles.contactItem}
+    >
+      <Text variant="labelLarge">{contact.displayName}</Text>
+      <Text>{contact.phoneNumbers[0].number}</Text>
     </TouchableOpacity>
   );
 }
@@ -47,14 +52,29 @@ type NavigationProp = NativeStackNavigationProp<
 export default function PaymentByMobilePage() {
   const navigation = useNavigation<NavigationProp>();
   const [query, setQuery] = React.useState('');
+  const { contacts, loadContacts, loading, error } = useContacts();
 
-  const handlePressContact = React.useCallback(() => {
-    navigation.navigate('PaymentDetail', {
-      recipientName: 'John Doe',
-      bankName: '',
-      accountNo: '',
-    });
-  }, [navigation]);
+  React.useEffect(() => {
+    loadContacts();
+  }, [loadContacts]);
+
+  const handlePressContact = React.useCallback(
+    (contact: Contact) => {
+      navigation.navigate('PaymentDetail', {
+        recipientName: String(contact.displayName),
+        bankName: 'Duitnow',
+        accountNo: formatPhoneToAccountNo(contact.phoneNumbers[0].number),
+      });
+    },
+    [navigation],
+  );
+
+  const renderItem = React.useCallback(
+    ({ item }: { item: Contact }) => (
+      <ContactItem contact={item} onPress={handlePressContact} />
+    ),
+    [handlePressContact],
+  );
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -67,14 +87,23 @@ export default function PaymentByMobilePage() {
           />
           <Spacer />
 
-          <FlatList
-            data={[]}
-            keyExtractor={item => item.id}
-            renderItem={item => (
-              <ContactItem contact={item} onPress={handlePressContact} />
-            )}
-            ListEmptyComponent={<EmptyContactContent />}
-          />
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <FlatList
+              data={contacts || []}
+              keyExtractor={item => item.recordID}
+              renderItem={renderItem}
+              ItemSeparatorComponent={Divider}
+              ListEmptyComponent={
+                error ? (
+                  <ErrorText style={styles.errorText}>{error}</ErrorText>
+                ) : (
+                  <EmptyContactContent />
+                )
+              }
+            />
+          )}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -97,5 +126,14 @@ const styles = StyleSheet.create({
     padding: 24,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorText: {
+    textAlign: 'center',
+  },
+  contactItem: {
+    flex: 1,
+    minHeight: 48,
+    marginVertical: 4,
+    justifyContent: 'center',
   },
 });
