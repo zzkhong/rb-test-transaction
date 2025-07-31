@@ -40,12 +40,16 @@ export default function PaymentResultPage() {
           {params.error ? (
             <>
               <Icon size={120} color={Colors.error} source="alert-circle" />
-              <Text variant="headlineSmall">{params.error}</Text>
+              <Text variant="headlineSmall" style={styles.headline}>
+                {params.error}
+              </Text>
             </>
           ) : (
             <>
               <Icon size={120} color={Colors.success} source="check-circle" />
-              <Text variant="headlineSmall">Payment has been transferred</Text>
+              <Text variant="headlineSmall" style={styles.headline}>
+                Payment has been transferred
+              </Text>
             </>
           )}
         </View>
@@ -97,6 +101,9 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     margin: 32,
+  },
+  headline: {
+    textAlign: 'center',
   },
   button: {
     margin: 16,

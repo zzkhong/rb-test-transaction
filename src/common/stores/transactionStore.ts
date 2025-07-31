@@ -1,9 +1,9 @@
 import { create } from 'zustand';
-import { Transaction } from '@common/interface/transaction';
+import { TransactionData } from '@common/interface/transaction';
 
 export interface TransactionStore {
-  recentTransactions: Transaction[];
-  setRecentTransactions: (transactions: Transaction[]) => void;
+  recentTransactions: TransactionData[];
+  setRecentTransactions: (transactions: TransactionData[]) => void;
 }
 
 const useTransactionStore = create<TransactionStore>(set => ({

@@ -1,19 +1,8 @@
-export interface Transaction {
-  id: number;
+export interface TransactionData {
+  id: string;
   recipientName: string;
+  bankName: string;
   accountNo: string;
+  amount: number;
+  reference: string;
 }
-
-export const initialRecipientData = {
-  bankName: '',
-  accountNo: '',
-};
-
-export type RecipientData = typeof initialRecipientData;
-
-export const initialTransactionData = {
-  amount: '0',
-  reference: '',
-};
-
-export type TransactionData = typeof initialTransactionData;

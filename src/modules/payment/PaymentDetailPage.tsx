@@ -46,7 +46,7 @@ export default function PaymentDetailPage() {
     navigation.navigate('PaymentApprove', {
       accountNo: params.accountNo,
       bankName: params.bankName,
-      amount: data.amount,
+      amount: parseCurrency(data.amount),
       reference: data.reference,
     });
   };

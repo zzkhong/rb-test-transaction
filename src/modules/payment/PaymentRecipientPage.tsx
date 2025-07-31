@@ -3,32 +3,15 @@ import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Divider } from 'react-native-paper';
 
 import { RootStackParamList } from '@common/constants/routes';
 import { Container } from '@common/styles';
 import Button from '@common/components/Button';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
-import type { Transaction } from '@common/interface/transaction';
-import { Divider } from 'react-native-paper';
-
-const RECENT_TRANSACTIONS: Transaction[] = [
-  {
-    id: 1,
-    recipientName: 'MR. A',
-    accountNo: '88880001',
-  },
-  {
-    id: 2,
-    recipientName: 'MR. B',
-    accountNo: '88880001',
-  },
-  {
-    id: 3,
-    recipientName: 'MR. C',
-    accountNo: '88880003',
-  },
-];
+import { TransactionData } from '@common/interface/transaction';
+import useTransactionStore from '@common/stores/transactionStore';
 
 function EmptyRecentContent() {
   return (
@@ -42,14 +25,17 @@ function RecentItem({
   transaction,
   onPress,
 }: {
-  transaction: Transaction;
+  transaction: TransactionData;
   onPress: () => void;
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.recentItem}>
-      <Text>
-        {transaction.recipientName} ({transaction.accountNo})
-      </Text>
+      <View>
+        <Text variant="bodyMedium">{transaction.recipientName}</Text>
+        <Text variant="labelMedium">
+          {`${transaction.bankName} - ${transaction.accountNo}`}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -61,6 +47,7 @@ type NavigationProp = NativeStackNavigationProp<
 
 export default function PaymentRecipientPage() {
   const navigation = useNavigation<NavigationProp>();
+  const { recentTransactions } = useTransactionStore();
 
   const recipientButtons = React.useMemo(
     () => [
@@ -80,11 +67,11 @@ export default function PaymentRecipientPage() {
     [navigation],
   );
 
-  const handleRecentPress = (transaction: Transaction) => {
+  const handleRecentPress = (transaction: TransactionData) => {
     // Navigate or handle the press event for the transaction
     navigation.navigate('PaymentDetail', {
-      bankName: '',
-      accountNo: '',
+      bankName: transaction.bankName,
+      accountNo: transaction.accountNo,
     });
   };
 
@@ -111,8 +98,8 @@ export default function PaymentRecipientPage() {
       {/* Recent Transfer */}
       <Text variant="headlineSmall">Recent Transactions</Text>
       <FlatList
-        data={[]}
-        keyExtractor={item => String(item.id)}
+        data={recentTransactions}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <RecentItem
             transaction={item}

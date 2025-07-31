@@ -11,7 +11,7 @@ import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
 import { useBiometricAuth } from '@common/hooks/useBiometricAuth';
 import useUserStore from '@common/stores/userStore';
-import { parseCurrency } from '@common/util/currency';
+import { formatCurrency } from '@common/util/currency';
 import useTransactionStore from '@common/stores/transactionStore';
 
 type NavigationProp = NativeStackNavigationProp<
@@ -34,17 +34,20 @@ export default function PaymentApprovePage() {
 
       if (isAuthenticated) {
         navigation.navigate('PaymentResult', params);
-        setBalance(balance - parseCurrency(params.amount));
+        setBalance(balance - params.amount);
         setRecentTransactions([
           ...recentTransactions,
           {
-            id: Date.now(),
+            id: String(Date.now()),
             recipientName: 'John Doe',
             accountNo: params.accountNo,
+            bankName: params.bankName,
+            amount: params.amount,
+            reference: params.reference,
           },
         ]);
       } else {
-        // TODO
+        // fallback to pin
       }
     })();
   }, [
@@ -72,7 +75,11 @@ export default function PaymentApprovePage() {
         contentContainerStyle={styles.scrollContent}
       >
         {/* Input Amount */}
-        <CurrencyInput autoFocus value={params.amount} editable={false} />
+        <CurrencyInput
+          autoFocus
+          value={formatCurrency(params.amount)}
+          editable={false}
+        />
         <Spacer />
 
         {/* Payee Details */}
