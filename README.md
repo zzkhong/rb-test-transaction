@@ -1,97 +1,102 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## Secure Payment Transfer App (React Native)
 
-# Getting Started
+A digital banking prototype built with **React Native** and **TypeScript**. This module demonstrates secure payment transfers with **biometric authentication**, **PIN fallback**, **mocked API calls**, and **contact-based recipient selection**.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+![Wireframe](./doc/wireframe.png)
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🔧 Setup Instructions
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+> ⚠️ Tested on **Android only**. iOS support is not configured.
 
-```sh
-# Using npm
-npm start
+### 1. Install Dependencies
 
-# OR using Yarn
+```bash
+yarn install
+# or
+npm install
+```
+
+### 2. Start Metro Bundler
+
+```bash
 yarn start
+# or
+npx react-native start
 ```
 
-## Step 2: Build and run your app
+### 3. Run on Android
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
+```bash
 yarn android
+# or
+npx react-native run-android
 ```
 
-### iOS
+### 4. (Optional) Clean Build Cache
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+cd android && ./gradlew clean && cd ..
 ```
 
-Then, and every time you update your native dependencies, run:
+---
 
-```sh
-bundle exec pod install
-```
+## ✅ Features
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### 1. **Payment Transfer Interface**
 
-```sh
-# Using npm
-npm run ios
+- User-friendly input for:
 
-# OR using Yarn
-yarn ios
-```
+  - Recipient selection (manual or contact)
+  - Amount (currency-formatted)
+  - Optional note
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+- Displays current account balance
+- Validates inputs with meaningful error messages
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### 2. **Biometric Authentication**
 
-## Step 3: Modify your app
+- Prompts biometric authentication (Face ID / Fingerprint) **before transfer**
+- If biometric fails or is unsupported, prompts **custom PIN input**
+- Blocks transfers until authentication succeeds or explicitly fails
 
-Now that you have successfully run the app, let's make changes!
+### 3. **Transaction Processing**
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+- Simulated API call after successful authentication
+- Introduces **20% chance of network failure** to simulate real-world issues
+- Displays result screen showing success or failure with message
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### 4. **Performance Optimization**
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- Uses `FlatList` for efficient list rendering
+- State managed with **Zustand** for minimal re-renders
 
-## Congratulations! :tada:
+### 5. **Recipient Management**
 
-You've successfully run and modified your React Native App. :partying_face:
+- Recent transfer list (in-memory only)
+- Access device contacts (with permission) for recipient selection
+- Hardcoded bank options
+- Automatically resolves account number to a name (e.g. **John Doe**, or contact name)
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## ⚙️ Assumptions & Concerns
 
-# Troubleshooting
+- **Balance is reset** on app restart (not persisted)
+- **API mock occurs _after_ biometric authentication**
+- **Bank list is hardcoded**
+- Recipient name is fetched from account number or contact
+- Real-world BE scenario need to handle idempotency to resolve double tap issue
+- PIN fallback should use custom keypad for security purpose
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+---
 
-# Learn More
+## ⚠️ Known Limitations
 
-To learn more about React Native, take a look at the following resources:
+- iOS build not configured or tested
+- Contacts access requires permission and may fail on emulator
+- App does not persist state to storage (i.e. balance and history are volatile)
+- Only simulates backend behavior (no real API or database)
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+---
