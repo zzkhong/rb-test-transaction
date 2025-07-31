@@ -2,8 +2,9 @@ import * as React from 'react';
 import { View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import { Container } from '@common/styles';
 import Button from '@common/components/Button';
 import Spacer from '@common/components/Spacer';
@@ -53,6 +54,11 @@ function RecentItem({
   );
 }
 
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'PaymentRecipient'
+>;
+
 export default function PaymentRecipientPage() {
   const navigation = useNavigation<NavigationProp>();
 
@@ -62,13 +68,13 @@ export default function PaymentRecipientPage() {
         id: 'bank',
         label: 'Account Number',
         icon: 'bank',
-        onPress: () => navigation.navigate(RouteList.PaymentByAccount),
+        onPress: () => navigation.navigate('PaymentByAccount'),
       },
       {
         id: 'mobile',
         label: 'Mobile Number',
         icon: 'card-account-phone',
-        onPress: () => navigation.navigate(RouteList.PaymentByMobile),
+        onPress: () => navigation.navigate('PaymentByMobile'),
       },
     ],
     [navigation],
@@ -76,7 +82,10 @@ export default function PaymentRecipientPage() {
 
   const handleRecentPress = (transaction: Transaction) => {
     // Navigate or handle the press event for the transaction
-    navigation.navigate(RouteList.PaymentDetail);
+    navigation.navigate('PaymentDetail', {
+      bankName: '',
+      accountNo: '',
+    });
   };
 
   return (

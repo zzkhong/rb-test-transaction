@@ -1,26 +1,34 @@
 import * as React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
 
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'PaymentApprove'
+>;
+type NavRouteProp = RouteProp<RootStackParamList, 'PaymentApprove'>;
+
 export default function PaymentApprovePage() {
   const navigation = useNavigation<NavigationProp>();
+  const { params } = useRoute<NavRouteProp>();
 
   const handleApprove = React.useCallback(() => {
     // approve action
-    navigation.navigate(RouteList.PaymentResult);
-  }, [navigation]);
+    navigation.navigate('PaymentResult', params);
+  }, [navigation, params]);
 
   const handleReject = React.useCallback(() => {
     // reject action
-    navigation.navigate(RouteList.PaymentResult);
-  }, [navigation]);
+    navigation.navigate('PaymentResult', params);
+  }, [navigation, params]);
 
   return (
     <SafeAreaView style={styles.wrapper}>
@@ -29,7 +37,7 @@ export default function PaymentApprovePage() {
         contentContainerStyle={styles.scrollContent}
       >
         {/* Input Amount */}
-        <CurrencyInput autoFocus value={String(100000)} editable={false} />
+        <CurrencyInput autoFocus value={params.amount} editable={false} />
         <Spacer />
 
         {/* Payee Details */}
@@ -39,7 +47,7 @@ export default function PaymentApprovePage() {
 
         {/* Account Details */}
         <Text variant="titleMedium">Account Info</Text>
-        <Text variant="headlineSmall">Public Bank • 88880001</Text>
+        <Text variant="headlineSmall">{`${params.bankName} • ${params.accountNo}`}</Text>
         <Spacer variant="large" />
 
         {/* Transfer Type */}
@@ -47,9 +55,9 @@ export default function PaymentApprovePage() {
         <Text variant="headlineSmall">Fund Transfer</Text>
         <Spacer variant="large" />
 
-        {/* References */}
-        <Text variant="labelLarge">References</Text>
-        <Text variant="headlineSmall">lorem ipsum</Text>
+        {/* Reference */}
+        <Text variant="labelLarge">Reference</Text>
+        <Text variant="headlineSmall">{params.reference}</Text>
         <Spacer />
       </ScrollView>
 

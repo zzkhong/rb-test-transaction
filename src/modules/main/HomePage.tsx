@@ -2,12 +2,15 @@ import * as React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { Card } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import { Container } from '@common/styles';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
 import Button from '@common/components/Button';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomePage() {
   const navigation = useNavigation<NavigationProp>();
@@ -18,7 +21,7 @@ export default function HomePage() {
         id: 'transfer',
         label: 'Transfer Money',
         icon: 'bank-transfer',
-        onPress: () => navigation.navigate(RouteList.PaymentRecipient),
+        onPress: () => navigation.navigate('PaymentRecipient'),
       },
       {
         id: 'qr',

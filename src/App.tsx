@@ -13,19 +13,19 @@ import PaymentResultPage from '@modules/payment/PaymentResultPage';
 import PaymentByMobilePage from '@modules/payment/PaymentByMobilePage';
 import PaymentByAccountPage from '@modules/payment/PaymentByAccountPage';
 
-import RouteList from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import Header from '@common/components/Header';
 import { Colors } from '@common/styles';
 
 export const navigationRef = createNavigationContainerRef();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator
-          initialRouteName={RouteList.Home}
+          initialRouteName="Home"
           screenOptions={{
             // eslint-disable-next-line react/no-unstable-nested-components
             header: props => <Header {...props} />,
@@ -36,37 +36,53 @@ function App() {
         >
           <Stack.Screen
             options={{ header: () => null }}
-            name={RouteList.Home}
+            name="Home"
             component={HomePage}
           />
 
           {/* Payment Module */}
           <Stack.Screen
-            name={RouteList.PaymentRecipient}
+            name="PaymentRecipient"
+            options={{
+              headerTitle: 'Payment Recipients',
+            }}
             component={PaymentRecipientPage}
           />
           <Stack.Screen
-            name={RouteList.PaymentByAccount}
+            name="PaymentByAccount"
+            options={{
+              headerTitle: 'Fill in Account Details',
+            }}
             component={PaymentByAccountPage}
           />
           <Stack.Screen
-            name={RouteList.PaymentByMobile}
+            name="PaymentByMobile"
+            options={{
+              headerTitle: 'Select Mobile Number',
+            }}
             component={PaymentByMobilePage}
           />
           <Stack.Screen
-            name={RouteList.PaymentDetail}
+            name="PaymentDetail"
+            options={{
+              headerTitle: 'Payment Detail',
+            }}
             component={PaymentDetailPage}
           />
           <Stack.Screen
-            name={RouteList.PaymentApprove}
+            name="PaymentApprove"
+            options={{
+              headerTitle: 'Payment Confirmation',
+            }}
             component={PaymentApprovePage}
           />
           <Stack.Screen
             options={{
+              headerTitle: 'Payment Result',
               gestureEnabled: false,
               header: () => null,
             }}
-            name={RouteList.PaymentResult}
+            name="PaymentResult"
             component={PaymentResultPage}
           />
         </Stack.Navigator>

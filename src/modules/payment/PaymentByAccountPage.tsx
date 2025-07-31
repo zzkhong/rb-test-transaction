@@ -3,8 +3,9 @@ import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Controller, useForm } from 'react-hook-form';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import Button from '@common/components/Button';
 import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
@@ -31,9 +32,14 @@ const BANK_DATA = [
 ];
 
 type FormData = {
-  bankId: string;
+  bankName: string;
   accountNo: string;
 };
+
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'PaymentByAccount'
+>;
 
 export default function PaymentByAccountPage() {
   const navigation = useNavigation<NavigationProp>();
@@ -44,15 +50,15 @@ export default function PaymentByAccountPage() {
     formState: { isValid, errors },
   } = useForm<FormData>({
     defaultValues: {
-      bankId: '',
+      bankName: '',
       accountNo: '',
     },
     mode: 'onChange',
   });
 
   const onSubmit = (data: FormData) => {
-    navigation.navigate(RouteList.PaymentDetail, {
-      bankId: data.bankId,
+    navigation.navigate('PaymentDetail', {
+      bankName: data.bankName,
       accountNo: data.accountNo,
     });
   };
@@ -67,7 +73,7 @@ export default function PaymentByAccountPage() {
           {/* Payee Details */}
           <Text variant="titleMedium">Bank</Text>
           <Controller
-            name="bankId"
+            name="bankName"
             control={control}
             rules={{ required: 'Please select recipient bank' }}
             render={({ field: { onChange, value } }) => (
@@ -77,7 +83,7 @@ export default function PaymentByAccountPage() {
                 placeholder="Select Recipient Bank"
                 labelField="label"
                 valueField="id"
-                onChange={item => onChange(item.id)}
+                onChange={item => onChange(item.label)}
               />
             )}
           />
@@ -103,6 +109,7 @@ export default function PaymentByAccountPage() {
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
                 placeholder="Enter Account Number"
+                keyboardType="numeric"
                 onChangeText={onChange}
                 onBlur={onBlur}
                 value={value}

@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import Button from '@common/components/Button';
 import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
@@ -17,8 +18,15 @@ type FormData = {
   reference: string;
 };
 
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'PaymentDetail'
+>;
+type NavRouteProp = RouteProp<RootStackParamList, 'PaymentDetail'>;
+
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
+  const { params } = useRoute<NavRouteProp>();
 
   const {
     control,
@@ -33,9 +41,11 @@ export default function PaymentDetailPage() {
   });
 
   const onSubmit = (data: FormData) => {
-    navigation.navigate(RouteList.PaymentApprove, {
+    navigation.navigate('PaymentApprove', {
+      accountNo: params.accountNo,
+      bankName: params.bankName,
       amount: data.amount,
-      references: data.reference,
+      reference: data.reference,
     });
   };
 
@@ -78,7 +88,7 @@ export default function PaymentDetailPage() {
 
           {/* Account Details */}
           <Text variant="titleMedium">Account Info</Text>
-          <Text variant="headlineSmall">Public Bank • 88880001</Text>
+          <Text variant="headlineSmall">{`${params.bankName} • ${params.accountNo}`}</Text>
           <Spacer variant="large" />
 
           {/* Transfer Type */}
@@ -86,8 +96,8 @@ export default function PaymentDetailPage() {
           <Text variant="headlineSmall">Fund Transfer</Text>
           <Spacer variant="large" />
 
-          {/* References */}
-          <Text variant="labelLarge">References</Text>
+          {/* Reference */}
+          <Text variant="labelLarge">Reference</Text>
           <Controller
             name="reference"
             control={control}

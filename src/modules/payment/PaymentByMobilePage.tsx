@@ -9,8 +9,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { Searchbar } from 'react-native-paper';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import RouteList, { NavigationProp } from '@common/constants/routes';
+import { RootStackParamList } from '@common/constants/routes';
 import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 
@@ -36,12 +37,20 @@ function EmptyContactContent() {
   );
 }
 
+type NavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'PaymentByMobile'
+>;
+
 export default function PaymentByMobilePage() {
   const navigation = useNavigation<NavigationProp>();
   const [query, setQuery] = React.useState('');
 
   const handlePressContact = React.useCallback(() => {
-    navigation.navigate(RouteList.PaymentDetail);
+    navigation.navigate('PaymentDetail', {
+      bankName: '',
+      accountNo: '',
+    });
   }, [navigation]);
 
   return (
