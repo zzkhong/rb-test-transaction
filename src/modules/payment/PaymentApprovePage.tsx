@@ -124,6 +124,7 @@ export default function PaymentApprovePage() {
         visible={showPinModal}
         // If fallback to pin still fail, reject payment
         onConfirm={pin => {
+          // Hardcoded pin logic here
           if (pin === STORED_PIN) {
             handleAuthSuccess();
           } else {

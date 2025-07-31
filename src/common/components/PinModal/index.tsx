@@ -22,31 +22,35 @@ const PinModal = ({ visible, onConfirm, onCancel, error }: PinModalProps) => {
 
   useDisableBackButton();
 
-  useEffect(() => {
-    if (visible) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-    } else {
-      setPin('');
-    }
-  }, [visible]);
+  const handleCancel = () => {
+    setPin('');
+    onCancel();
+  };
 
-  useEffect(() => {
-    if (pin.length === 6) {
-      onConfirm(pin);
+  const handleChangeText = (input: string) => {
+    if (input.length <= STORED_PIN.length) {
+      setPin(input);
+      if (input.length === STORED_PIN.length) onConfirm(input);
     }
-  }, [onConfirm, pin]);
+  };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal
+      visible={visible}
+      onShow={() => inputRef.current?.focus()}
+      onDismiss={() => setPin('')}
+      transparent
+      animationType="slide"
+    >
       <View style={styles.fullscreen}>
-        <IconButton icon="close" size={20} onPress={onCancel} />
+        <IconButton icon="close" size={20} onPress={handleCancel} />
 
         <View style={styles.content}>
           <Text style={styles.title}>Enter your PIN</Text>
           <TextInput
             ref={inputRef}
             value={pin}
-            onChangeText={setPin}
+            onChangeText={handleChangeText}
             keyboardType="numeric"
             secureTextEntry
             maxLength={6}

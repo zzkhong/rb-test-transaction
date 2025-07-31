@@ -1,12 +1,20 @@
 export function formatCurrency(value: string | number): string {
-  const cleaned = String(value).replace(/[^0-9]/g, '');
+  let numberValue: number;
 
-  // separator and 2 digit decimal
-  const numberValue = (parseFloat(cleaned) / 100)
-    .toFixed(2)
-    .replace(/\d(?=(\d{3})+\.)/g, '$&,');
+  if (typeof value === 'string') {
+    const cleaned = value.replace(/[^0-9]/g, '');
+    numberValue = parseFloat(cleaned || '0') / 100;
+  } else {
+    numberValue = value;
+  }
 
-  return `RM ${numberValue}`;
+  if (isNaN(numberValue)) {
+    numberValue = 0;
+  }
+
+  const formatted = numberValue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+
+  return `RM ${formatted}`;
 }
 
 export function parseCurrency(raw: string): number {
