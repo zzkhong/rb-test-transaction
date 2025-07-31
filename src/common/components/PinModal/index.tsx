@@ -30,7 +30,10 @@ const PinModal = ({ visible, onConfirm, onCancel, error }: PinModalProps) => {
   const handleChangeText = (input: string) => {
     if (input.length <= STORED_PIN.length) {
       setPin(input);
-      if (input.length === STORED_PIN.length) onConfirm(input);
+      if (input.length === STORED_PIN.length) {
+        onConfirm(input);
+        setPin('');
+      }
     }
   };
 

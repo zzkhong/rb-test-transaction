@@ -5,6 +5,7 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Toast from 'react-native-toast-message';
 
 import HomePage from '@modules/main/HomePage';
 import PaymentRecipientPage from 'modules/payment/PaymentRecipientPage';
@@ -91,6 +92,8 @@ function App() {
             />
           </Stack.Navigator>
         </NavigationContainer>
+
+        <Toast />
       </SafeAreaProvider>
     </QueryClientProvider>
   );

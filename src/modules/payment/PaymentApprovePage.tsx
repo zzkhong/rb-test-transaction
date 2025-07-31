@@ -30,28 +30,34 @@ export default function PaymentApprovePage() {
   const { authenticate } = useBiometricAuth();
   const { balance, setBalance } = useUserStore();
   const { recentTransactions, setRecentTransactions } = useTransactionStore();
-  const { mutate: transfer, isPending, isError, error } = useTransfer();
+  const { mutate: transfer, isPending } = useTransfer();
 
   const [showPinModal, setShowPinModal] = React.useState(false);
 
   const handleAuthSuccess = React.useCallback(() => {
     transfer(
-      {},
       {
-        onSuccess: () => {
-          navigation.navigate('PaymentResult', params);
+        recipientName: params.recipientName,
+        accountNo: params.accountNo,
+        amount: params.amount,
+        bankName: params.bankName,
+        reference: params.reference,
+      },
+      {
+        onSuccess: response => {
           setBalance(balance - params.amount);
           setRecentTransactions([
             ...recentTransactions,
             {
-              id: String(Date.now()),
-              recipientName: params.recipientName,
-              accountNo: params.accountNo,
-              bankName: params.bankName,
-              amount: params.amount,
-              reference: params.reference,
+              id: response.data.id,
+              recipientName: response.data.recipientName,
+              accountNo: response.data.accountNo,
+              bankName: response.data.bankName,
+              amount: response.data.amount,
+              reference: response.data.reference,
             },
           ]);
+          navigation.navigate('PaymentResult', params);
         },
         onError: err => {
           Toast.show({
@@ -128,7 +134,7 @@ export default function PaymentApprovePage() {
 
             {/* Reference */}
             <Text variant="labelLarge">Reference</Text>
-            <Text variant="headlineSmall">{params.reference}</Text>
+            <Text variant="headlineSmall">{params.reference || '-'}</Text>
             <Spacer />
           </ScrollView>
 
