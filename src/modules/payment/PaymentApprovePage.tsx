@@ -9,6 +9,10 @@ import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
+import { useBiometricAuth } from '@common/hooks/useBiometricAuth';
+import useUserStore from '@common/stores/userStore';
+import { parseCurrency } from '@common/util/currency';
+import useTransactionStore from '@common/stores/transactionStore';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -19,14 +23,42 @@ type NavRouteProp = RouteProp<RootStackParamList, 'PaymentApprove'>;
 export default function PaymentApprovePage() {
   const navigation = useNavigation<NavigationProp>();
   const { params } = useRoute<NavRouteProp>();
+  const { authenticate } = useBiometricAuth();
+  const { balance, setBalance } = useUserStore();
+  const { recentTransactions, setRecentTransactions } = useTransactionStore();
 
+  // approve action
   const handleApprove = React.useCallback(() => {
-    // approve action
-    navigation.navigate('PaymentResult', params);
-  }, [navigation, params]);
+    (async () => {
+      const isAuthenticated = await authenticate();
 
+      if (isAuthenticated) {
+        navigation.navigate('PaymentResult', params);
+        setBalance(balance - parseCurrency(params.amount));
+        setRecentTransactions([
+          ...recentTransactions,
+          {
+            id: Date.now(),
+            recipientName: 'John Doe',
+            accountNo: params.accountNo,
+          },
+        ]);
+      } else {
+        // TODO
+      }
+    })();
+  }, [
+    authenticate,
+    balance,
+    navigation,
+    params,
+    recentTransactions,
+    setBalance,
+    setRecentTransactions,
+  ]);
+
+  // reject action
   const handleReject = React.useCallback(() => {
-    // reject action
     navigation.navigate('PaymentResult', {
       ...params,
       error: 'Transaction has been rejected',
