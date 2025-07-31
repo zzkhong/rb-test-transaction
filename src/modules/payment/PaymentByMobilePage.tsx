@@ -24,7 +24,9 @@ function ContactItem({
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.contactItem}>
-      <Text>a{/* {transaction.payeeName} ({transaction.accountNo}) */}</Text>
+      <Text>
+        a{/* {transaction.recipientName} ({transaction.accountNo}) */}
+      </Text>
     </TouchableOpacity>
   );
 }

@@ -15,17 +15,17 @@ import { Divider } from 'react-native-paper';
 const RECENT_TRANSACTIONS: Transaction[] = [
   {
     id: 1,
-    payeeName: 'MR. A',
+    recipientName: 'MR. A',
     accountNo: '88880001',
   },
   {
     id: 2,
-    payeeName: 'MR. B',
+    recipientName: 'MR. B',
     accountNo: '88880001',
   },
   {
     id: 3,
-    payeeName: 'MR. C',
+    recipientName: 'MR. C',
     accountNo: '88880003',
   },
 ];
@@ -48,7 +48,7 @@ function RecentItem({
   return (
     <TouchableOpacity onPress={onPress} style={styles.recentItem}>
       <Text>
-        {transaction.payeeName} ({transaction.accountNo})
+        {transaction.recipientName} ({transaction.accountNo})
       </Text>
     </TouchableOpacity>
   );

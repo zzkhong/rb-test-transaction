@@ -1,6 +1,6 @@
 export interface Transaction {
   id: number;
-  payeeName: string;
+  recipientName: string;
   accountNo: string;
 }
 
