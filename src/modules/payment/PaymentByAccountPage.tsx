@@ -41,6 +41,7 @@ export default function PaymentByAccountPage() {
 
   const onSubmit = (data: FormData) => {
     navigation.navigate('PaymentDetail', {
+      recipientName: 'John Doe',
       bankName: getBankName(data.bankId),
       accountNo: data.accountNo,
     });

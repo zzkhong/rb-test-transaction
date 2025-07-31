@@ -12,6 +12,7 @@ import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
 import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
+import { formatCurrency } from '@common/util/currency';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -56,12 +57,16 @@ export default function PaymentResultPage() {
         <Spacer variant="large" />
 
         {/* Input Amount */}
-        <CurrencyInput autoFocus value={params.amount} editable={false} />
+        <CurrencyInput
+          autoFocus
+          value={formatCurrency(params.amount)}
+          editable={false}
+        />
         <Spacer />
 
         {/* Payee Details */}
         <Text variant="labelLarge">Payee Name</Text>
-        <Text variant="headlineSmall">John Doe</Text>
+        <Text variant="headlineSmall">{params.recipientName}</Text>
         <Spacer variant="large" />
 
         {/* Account Details */}

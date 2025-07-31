@@ -70,6 +70,7 @@ export default function PaymentRecipientPage() {
   const handleRecentPress = (transaction: TransactionData) => {
     // Navigate or handle the press event for the transaction
     navigation.navigate('PaymentDetail', {
+      recipientName: 'John Doe',
       bankName: transaction.bankName,
       accountNo: transaction.accountNo,
     });

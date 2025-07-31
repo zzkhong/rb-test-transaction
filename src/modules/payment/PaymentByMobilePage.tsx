@@ -50,6 +50,7 @@ export default function PaymentByMobilePage() {
 
   const handlePressContact = React.useCallback(() => {
     navigation.navigate('PaymentDetail', {
+      recipientName: 'John Doe',
       bankName: '',
       accountNo: '',
     });

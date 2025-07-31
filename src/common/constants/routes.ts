@@ -5,9 +5,12 @@ export type RootStackParamList = {
   PaymentRecipient: undefined;
   PaymentByAccount: undefined;
   PaymentByMobile: undefined;
-  PaymentDetail: Pick<TransactionData, 'bankName' | 'accountNo'>;
-  PaymentApprove: Omit<TransactionData, 'recipientName' | 'id'>;
-  PaymentResult: Omit<TransactionData, 'recipientName' | 'id'> & {
+  PaymentDetail: Pick<
+    TransactionData,
+    'bankName' | 'accountNo' | 'recipientName'
+  >;
+  PaymentApprove: Omit<TransactionData, 'id'>;
+  PaymentResult: Omit<TransactionData, 'id'> & {
     error?: string;
   };
 };

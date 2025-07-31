@@ -46,6 +46,7 @@ export default function PaymentDetailPage() {
     navigation.navigate('PaymentApprove', {
       accountNo: params.accountNo,
       bankName: params.bankName,
+      recipientName: params.recipientName,
       amount: parseCurrency(data.amount),
       reference: data.reference,
     });
@@ -85,7 +86,7 @@ export default function PaymentDetailPage() {
 
           {/* Payee Details */}
           <Text variant="labelLarge">Payee Name</Text>
-          <Text variant="headlineSmall">John Doe</Text>
+          <Text variant="headlineSmall">{params.recipientName}</Text>
           <Spacer variant="large" />
 
           {/* Account Details */}
