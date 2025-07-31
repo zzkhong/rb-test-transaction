@@ -9,11 +9,14 @@ import { Container } from '@common/styles';
 import Spacer from '@common/components/Spacer';
 import Text from '@common/components/Text';
 import Button from '@common/components/Button';
+import { formatCurrency } from '@common/util/currency';
+import useUserStore from '@common/stores/userStore';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Home'>;
 
 export default function HomePage() {
   const navigation = useNavigation<NavigationProp>();
+  const balance = useUserStore(state => state.balance);
 
   const quickActions = React.useMemo(
     () => [
@@ -48,7 +51,7 @@ export default function HomePage() {
       <Spacer variant="small" />
 
       <Text style={styles.fontBold} variant="displayMedium">
-        RM 60,000
+        {formatCurrency(balance)}
       </Text>
       <Spacer variant="large" />
 

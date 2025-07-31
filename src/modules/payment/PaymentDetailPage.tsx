@@ -11,7 +11,8 @@ import Text, { ErrorText } from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Input from '@common/components/Input';
 import CurrencyInput from '@common/components/CurrencyInput';
-import { parseCurrency } from '@common/util/currency';
+import { formatCurrency, parseCurrency } from '@common/util/currency';
+import useUserStore from '@common/stores/userStore';
 
 type FormData = {
   amount: string;
@@ -27,6 +28,7 @@ type NavRouteProp = RouteProp<RootStackParamList, 'PaymentDetail'>;
 export default function PaymentDetailPage() {
   const navigation = useNavigation<NavigationProp>();
   const { params } = useRoute<NavRouteProp>();
+  const balance = useUserStore(state => state.balance);
 
   const {
     control,
@@ -77,7 +79,7 @@ export default function PaymentDetailPage() {
               />
             )}
           />
-          <Text>{`Balance: ${'RM 1,000'}`}</Text>
+          <Text>{`Balance: ${formatCurrency(balance)}`}</Text>
           {errors.amount && <ErrorText>{errors.amount.message}</ErrorText>}
           <Spacer variant="large" />
 
