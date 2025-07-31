@@ -4,6 +4,12 @@ A digital banking prototype built with **React Native** and **TypeScript**. This
 
 ![Wireframe](./doc/wireframe.png)
 
+### Demo Video
+
+[Biometric Flow Demo](https://youtube.com/shorts/yaKB6ePTBe8)
+
+[Fallback Flow Demo](https://youtube.com/shorts/AH2BeC2dICc)
+
 ---
 
 ## 🔧 Setup Instructions
