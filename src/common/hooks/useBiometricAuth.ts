@@ -3,7 +3,7 @@ import ReactNativeBiometrics from 'react-native-biometrics';
 export const useBiometricAuth = () => {
   const authenticate = async (): Promise<boolean> => {
     const rnBiometrics = new ReactNativeBiometrics({
-      allowDeviceCredentials: true,
+      allowDeviceCredentials: false,
     });
 
     const { available } = await rnBiometrics.isSensorAvailable();

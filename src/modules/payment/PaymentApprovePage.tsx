@@ -9,10 +9,11 @@ import Text from '@common/components/Text';
 import Spacer from '@common/components/Spacer';
 import Button from '@common/components/Button';
 import CurrencyInput from '@common/components/CurrencyInput';
-import { useBiometricAuth } from '@common/hooks/useBiometricAuth';
+import { useBiometricAuth } from '@common/hooks';
 import useUserStore from '@common/stores/userStore';
 import { formatCurrency } from '@common/util/currency';
 import useTransactionStore from '@common/stores/transactionStore';
+import PinModal, { STORED_PIN } from '@common/components/PinModal';
 
 type NavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -27,31 +28,23 @@ export default function PaymentApprovePage() {
   const { balance, setBalance } = useUserStore();
   const { recentTransactions, setRecentTransactions } = useTransactionStore();
 
-  // approve action
-  const handleApprove = React.useCallback(() => {
-    (async () => {
-      const isAuthenticated = await authenticate();
+  const [showPinModal, setShowPinModal] = React.useState(false);
 
-      if (isAuthenticated) {
-        navigation.navigate('PaymentResult', params);
-        setBalance(balance - params.amount);
-        setRecentTransactions([
-          ...recentTransactions,
-          {
-            id: String(Date.now()),
-            recipientName: 'John Doe',
-            accountNo: params.accountNo,
-            bankName: params.bankName,
-            amount: params.amount,
-            reference: params.reference,
-          },
-        ]);
-      } else {
-        // fallback to pin
-      }
-    })();
+  const handleAuthSuccess = React.useCallback(() => {
+    navigation.navigate('PaymentResult', params);
+    setBalance(balance - params.amount);
+    setRecentTransactions([
+      ...recentTransactions,
+      {
+        id: String(Date.now()),
+        recipientName: 'John Doe',
+        accountNo: params.accountNo,
+        bankName: params.bankName,
+        amount: params.amount,
+        reference: params.reference,
+      },
+    ]);
   }, [
-    authenticate,
     balance,
     navigation,
     params,
@@ -59,6 +52,20 @@ export default function PaymentApprovePage() {
     setBalance,
     setRecentTransactions,
   ]);
+
+  // approve action
+  const handleApprove = React.useCallback(() => {
+    (async () => {
+      const isAuthenticated = await authenticate();
+
+      if (isAuthenticated) {
+        handleAuthSuccess();
+      } else {
+        // Fallback to pin input
+        setShowPinModal(true);
+      }
+    })();
+  }, [authenticate, handleAuthSuccess]);
 
   // reject action
   const handleReject = React.useCallback(() => {
@@ -112,6 +119,20 @@ export default function PaymentApprovePage() {
           Reject
         </Button>
       </View>
+
+      <PinModal
+        visible={showPinModal}
+        // If fallback to pin still fail, reject payment
+        onConfirm={pin => {
+          if (pin === STORED_PIN) {
+            handleAuthSuccess();
+          } else {
+            handleReject();
+          }
+          setShowPinModal(false);
+        }}
+        onCancel={() => setShowPinModal(false)}
+      />
     </SafeAreaView>
   );
 }
